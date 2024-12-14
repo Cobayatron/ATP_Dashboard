@@ -14,7 +14,7 @@ from streamlit_navigation_bar import st_navbar
 
 st.set_page_config(layout="wide")
 initial_sidebar_state="hidden" #this seems not to work
-st.logo ('..\Data\ATP.png',size='large')
+st.logo ('Data\ATP.png',size='large')
 
 
 with st.sidebar:
@@ -22,7 +22,7 @@ with st.sidebar:
         
     selector=st.selectbox("Which year are you interested in?", list(range(1998,2024)),disabled=False)
 st.title(f'Summary of the ATP :blue[{selector}]  winners')
-data=pd.read_csv(f'../Data/atp_matches_{selector}.csv')
+data=pd.read_csv(f'Data/atp_matches_{selector}.csv')
 
 with st.container(border=True):
     row=st.columns([1, 1, 1, 1],gap='small', vertical_alignment='top')

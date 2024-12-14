@@ -15,8 +15,8 @@ st.set_page_config(layout="wide")
 initial_sidebar_state="collapsed" #this seems not to work
 all=Combinefiles(1998,2024)
 
-players=pd.read_csv('../Data/atp_players.csv')
-st.logo ('..\Data\ATP.png',size='large')
+players=pd.read_csv('Data/atp_players.csv')
+st.logo ('Data\ATP.png',size='large')
 
 with st.sidebar:
     selector=st.selectbox("Who is your favourite Tennis Player?", players['name_first'] + ' ' + players['name_last'],disabled=False)
