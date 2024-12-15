@@ -81,6 +81,6 @@ with st.columns([1,1,1])[1]:
 fig2 = px.bar(winners_t, x='winner_name', color='surface', hover_data={'tourney_name':True,'winner_name':False, 'surface':False},color_discrete_sequence=['#8dd3c7', '#ffffb3', '#bebada', '#fb8072'])
 fig2.update_layout(xaxis_title='', yaxis_title='', xaxis_tickangle=80, xaxis_tickfont=dict(size=14), yaxis_tickfont=dict(size=12), bargap=0.05)
 fig2.update_traces(hovertemplate='<b>Tournament</b>: %{customdata[0]}<extra></extra>')
-fig2.update_yaxes(tickformat='d')
+fig2.update_yaxes(tickmode='linear', tick0=0, dtick=1)
 
 st.plotly_chart(fig2)

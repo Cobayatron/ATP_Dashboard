@@ -70,13 +70,13 @@ with row2:
 		fig1 = px.bar(selected, y='winner_name', color='surface', hover_data={'Years':True,'loser_name':True},color_discrete_sequence=['#8dd3c7', '#ffffb3', '#bebada', '#fb8072'])
 		fig1.update_layout(xaxis_title='', yaxis_title='', xaxis_tickfont=dict(size=11), yaxis_tickfont=dict(size=12), bargap=0.05)
 		fig1.update_traces(hovertemplate='<b>Year</b>: %{customdata[0]}<br><b>Finalist</b>: %{customdata[1]}<extra></extra>')
-		fig1.update_xaxes(tickformat='d')
+		fig1.update_xaxes(tickmode='linear', tick0=0, dtick=1)
 		st.plotly_chart(fig1)
 	with a[1]:
 		fig2 = px.bar(selected, x='winner_ioc', color='surface', hover_data={'winner_name':True,'Years':True},color_discrete_sequence=['#8dd3c7', '#ffffb3', '#bebada', '#fb8072'])
 		fig2.update_layout(xaxis_title='', yaxis_title='',  xaxis_tickfont=dict(size=11), yaxis_tickfont=dict(size=11), bargap=0.05)
 		fig2.update_traces(hovertemplate='<b>Winner</b>: %{customdata[0]}<br><b>Year</b>: %{customdata[1]}<extra></extra>')
-		fig2.update_yaxes(tickformat='d')#This is to set integers in the axis
+		fig2.update_yaxes(tickmode='linear', tick0=0, dtick=1)#This is to set integers in the axis
 		st.plotly_chart(fig2)
 	with a[2]:
 		selected=selected.sort_values(['Years'])
