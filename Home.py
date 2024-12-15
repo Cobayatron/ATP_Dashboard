@@ -14,12 +14,12 @@ from Combinefiles import Combinefiles
 ###############
 #Open all files in the folder
 all=Combinefiles(1998,2024)
-allfinals = pd.read_csv('Data\Alltournaments.csv')
+allfinals = pd.read_csv('Data/Alltournaments.csv')
 tourn_names=allfinals.drop_duplicates('tourney_name')
-tourneys_loc=pd.read_csv('Data\Tournament_location.csv')
+tourneys_loc=pd.read_csv('Data/Tournament_location.csv')
 st.set_page_config(layout="wide")
 initial_sidebar_state="collapsed" #this seems not to work
-st.logo ('Data\ATP.png',size='large')
+st.logo ('Data/ATP.png',size='large')
 
 
 

@@ -9,7 +9,7 @@ from streamlit_folium import st_folium
 
 st.set_page_config(layout="wide")
 initial_sidebar_state="hidden" #this seems not to work
-st.logo ('Data\ATP.png',size='large')
+st.logo ('Data/ATP.png',size='large')
 
 
 with st.sidebar:
