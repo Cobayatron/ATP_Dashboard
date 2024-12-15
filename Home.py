@@ -1,20 +1,13 @@
 
 #import all necessary libraries
 import pandas as pd
-import seaborn as sns
-import plotly as pt
 import plotly.express as px
-import numpy as np
 import streamlit as st
 import folium
-import matplotlib.pyplot as plt
-from matplotlib import rcParams
 from streamlit_folium import st_folium
-from streamlit_navigation_bar import st_navbar
 from Combinefiles import Combinefiles
 
 ##Matplot settings
-plt.rcParams.update({'font.size':4})
 
 
 
