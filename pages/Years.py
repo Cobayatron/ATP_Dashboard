@@ -1,5 +1,6 @@
 #import all necessary libraries
 import pandas as pd
+import numpy as np
 import matplotlib.pyplot as plt
 import plotly.express as px
 import streamlit as st
@@ -15,7 +16,7 @@ st.logo ('Data/ATP.png',size='large')
 with st.sidebar:
     
         
-    selector=st.selectbox("Which year are you interested in?", list(range(1998,2024)),disabled=False)
+    selector=st.selectbox("Which year are you interested in?", list(range(1998,2025)),disabled=False)
 st.title(f'Summary of the ATP :blue[{selector}]  winners')
 data=pd.read_csv(f'Data/atp_matches_{selector}.csv')
 
@@ -57,11 +58,29 @@ b1=performance.sort_values(by=['ratio'],ascending=False,ignore_index=True)
 
 winners_all=pd.DataFrame(data[(data['tourney_level']!='D') & (data['round']=='F')]['winner_name'].value_counts()).reset_index()
 winners_m=data[((data['tourney_level']=='M') | (data['tourney_level']=='F')) & (data['round']=='F')]
+winners_t=data[(data['tourney_level']=='A') & (data['round']=='F')]
 if any(winners_m['tourney_name']=='NextGen Finals'):
+    winners_t=pd.concat([winners_t, winners_m[winners_m['tourney_name']=='NextGen Finals']])
     winners_m = winners_m[winners_m['tourney_name'] != 'NextGen Finals']
 
-winners_t=data[(data['tourney_level']=='A') & (data['round']=='F')]
 
+masterData=data[((data['tourney_level']=='M') | (data['tourney_level']=='F')) & ((data['round']=='F') | (data['round']=='SF'))]
+masterData = masterData.drop(masterData[masterData.tourney_name== 'NextGen Finals'].index)
+Unames=pd.unique(winners_m['winner_name'])
+winners=pd.DataFrame(np.identity(len(winners_m),dtype=int)*100)
+
+if len(Unames)<10:
+    occ=[0]*len(Unames)
+    for i in range(len(Unames)):
+        occ[i]=pd.array((Unames[i]==winners_m['winner_name'])*100)
+    winners=occ
+
+for i in range(len(Unames)):
+        A=np.array(Unames[i]==masterData[(masterData['round']=='F')]['loser_name'])*50
+        B1=np.array(Unames[i]==masterData[(masterData['round']=='SF')]['loser_name'][::2])*25    
+        B2=np.array(Unames[i]==masterData[(masterData['round']=='SF')]['loser_name'][1::2])*25    
+   
+        winners[i]=winners[i]+A+B1+B2
 
 with row2[1]:
     with st.container(border=True):
@@ -70,13 +89,15 @@ with row2[1]:
         col2.metric(label='Best +/-',value=b1.player_name[0],delta=str(str(round(b1.ratio[0]*100,2)) + '%'))
         col3.metric(label='Most Tournaments',value=winners_all.winner_name[0],delta=int(winners_all['count'][0]))
 with row2[0]:
+    
     fig1, axs = plt.subplots()
-    fig1 = px.scatter(winners_m, y='winner_name', x='tourney_name', color='surface', hover_data={'loser_name':True,'score':True,'winner_name':False,'tourney_name':False,'surface':False},color_discrete_sequence=['#8dd3c7', '#ffffb3', '#bebada', '#fb8072'],)
-    fig1.update_layout(xaxis_title='', yaxis_title='',xaxis_tickangle=75 , xaxis_tickfont=dict(size=18), yaxis_tickfont=dict(size=12), )
-    fig1.update_traces(hovertemplate='<b>Finalist</b>: %{customdata[0]}<br><b>Score</b>: %{customdata[1]}<extra></extra>',marker=dict(size=12,line=dict(width=1)))
+    fig1=px.imshow(winners,labels=dict(x="", y="", color="Performance"),x=winners_m['tourney_name'], y=Unames ,color_continuous_scale='sunset')
     st.plotly_chart(fig1)
 with st.columns([1,1,1])[1]:
     st.header(':red[Other ATP winners]')
+
+    
+
 
 fig2 = px.bar(winners_t, x='winner_name', color='surface', hover_data={'tourney_name':True,'winner_name':False, 'surface':False},color_discrete_sequence=['#8dd3c7', '#ffffb3', '#bebada', '#fb8072'])
 fig2.update_layout(xaxis_title='', yaxis_title='', xaxis_tickangle=80, xaxis_tickfont=dict(size=14), yaxis_tickfont=dict(size=12), bargap=0.05)

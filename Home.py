@@ -5,7 +5,7 @@ import plotly.express as px
 import streamlit as st
 import folium
 from streamlit_folium import st_folium
-from Combinefiles import Combinefiles
+
 
 ##Matplot settings
 
@@ -13,7 +13,7 @@ from Combinefiles import Combinefiles
 
 ###############
 #Open all files in the folder
-all=Combinefiles(1998,2024)
+
 allfinals = pd.read_csv('Data/Alltournaments.csv')
 tourn_names=allfinals.drop_duplicates('tourney_name')
 tourneys_loc=pd.read_csv('Data/Tournament_location.csv')
@@ -68,20 +68,20 @@ with row2:
 	with a[0]:	
 		selected['Years']=selected['tourney_id'].str[:4]
 		fig1 = px.bar(selected, y='winner_name', color='surface', hover_data={'Years':True,'loser_name':True},color_discrete_sequence=['#8dd3c7', '#ffffb3', '#bebada', '#fb8072'])
-		fig1.update_layout(xaxis_title='', yaxis_title='', xaxis_tickfont=dict(size=11), yaxis_tickfont=dict(size=12), bargap=0.05)
+		fig1.update_layout(title='Winners',xaxis_title='', yaxis_title='', xaxis_tickfont=dict(size=11), yaxis_tickfont=dict(size=12), bargap=0.05)
 		fig1.update_traces(hovertemplate='<b>Year</b>: %{customdata[0]}<br><b>Finalist</b>: %{customdata[1]}<extra></extra>')
 		fig1.update_xaxes(tickmode='linear', tick0=0, dtick=1)
 		st.plotly_chart(fig1)
 	with a[1]:
 		fig2 = px.bar(selected, x='winner_ioc', color='surface', hover_data={'winner_name':True,'Years':True},color_discrete_sequence=['#8dd3c7', '#ffffb3', '#bebada', '#fb8072'])
-		fig2.update_layout(xaxis_title='', yaxis_title='',  xaxis_tickfont=dict(size=11), yaxis_tickfont=dict(size=11), bargap=0.05)
+		fig2.update_layout(title='Nationalities',xaxis_title='', yaxis_title='',  xaxis_tickfont=dict(size=11), yaxis_tickfont=dict(size=11), bargap=0.05)
 		fig2.update_traces(hovertemplate='<b>Winner</b>: %{customdata[0]}<br><b>Year</b>: %{customdata[1]}<extra></extra>')
 		fig2.update_yaxes(tickmode='linear', tick0=0, dtick=1)#This is to set integers in the axis
 		st.plotly_chart(fig2)
 	with a[2]:
 		selected=selected.sort_values(['Years'])
 		fig3 = px.bar(selected, y='Years', x='minutes',color='surface',hover_data={'score':True,'minutes':True}, color_discrete_sequence=['#8dd3c7', '#ffffb3', '#bebada', '#fb8072'])
-		fig3.update_layout(xaxis_title='', yaxis_title='',  xaxis_tickfont=dict(size=11), yaxis_tickfont=dict(size=11), bargap=0.05,yaxis={'type': 'category'})
+		fig3.update_layout(title='Final Duration',xaxis_title='', yaxis_title='',  xaxis_tickfont=dict(size=11), yaxis_tickfont=dict(size=11), bargap=0.05,yaxis={'type': 'category'})
 		fig3.update_traces(hovertemplate='<b>Final score</b>: %{customdata[0]}<br><b>Final duration</b>: %{x}<extra></extra>')
 		st.plotly_chart(fig3)
 
