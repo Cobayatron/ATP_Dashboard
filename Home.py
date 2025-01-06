@@ -7,9 +7,6 @@ import folium
 from streamlit_folium import st_folium
 
 
-##Matplot settings
-
-
 
 ###############
 #Open all files in the folder
