@@ -25,6 +25,7 @@ rank10=pd.read_csv('Data/atp_rankings_10s.csv')
 rank20=pd.read_csv('Data/atp_rankings_20s.csv')
 rankcurrent=pd.read_csv('Data/atp_rankings_current.csv')    
 ranking=pd.concat([rank90,rank00,rank10,rank20,rankcurrent])
+ranking=ranking[ranking['ranking_date']>19980000]
 
 # Data for all players
 players=pd.read_csv('Data/selectedplayers.csv')
@@ -77,8 +78,11 @@ else:
 
 
 # Ranking of the player
-
-
+history=ranking[ranking['player']==id]
+h20=len(history[history['rank']<=20])
+h10=len(history[history['rank']<=10])
+h5=len(history[history['rank']<=5])
+h1=len(history[history['rank']==1])
 
 
 with c[0]:
@@ -98,10 +102,10 @@ with c[1]:
 with g[0]:
     with st.container(border=True):
         col1, col2, col3, col4 = st.columns(4,gap='small')
-        col1.metric(label='Weeks #1',value="0")
-        col2.metric(label='Weeks Top 5',value="10")
-        col3.metric(label='Weeks Top 10',value="20")
-        col4.metric(label='Weeks Top 20', value='100')
+        col1.metric(label='Weeks #1',value=h1)
+        col2.metric(label='Weeks Top 5',value=h5)
+        col3.metric(label='Weeks Top 10',value=h10)
+        col4.metric(label='Weeks Top 20', value=h20)
 with g[1]:
     with st.container(border=True):
         col1, col2, col3 = st.columns(3,gap='small')
