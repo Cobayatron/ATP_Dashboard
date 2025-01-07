@@ -35,7 +35,12 @@ st.logo ('Data/ATP.png',size='large')
 with st.sidebar:
     selector=st.selectbox("Who is your favourite Tennis Player?", players['name_first'] + ' ' + players['name_last'],disabled=False)
     names=selector.split()
-    id=players.loc[(players['name_first']==names[0]) & (players['name_last']==names[1]),'player_id'].values[0]
+    if len(names)==2:
+        id=players.loc[(players['name_first']==names[0]),'player_id'].values[0]
+    elif len(names)==3:
+        id=players.loc[(players['name_first']==names[0] + ' '+ names[1]) & (players['name_last']==names[2]) | (players['name_first']==names[0]) & (players['name_last']==names[1]+ ' '+ names[2]),'player_id'].values[0]        
+    elif len(names)==4:
+        id=players.loc[(players['name_first']==names[0] + ' '+ names[1]) & (players['name_last']==names[2]+ ' '+ names[3]) | (players['name_first']==names[0]) & (players['name_last']==names[1]+ ' '+ names[2]+ ' '+ names[3]) | (players['name_first']==names[0]+ ' '+ names[1]+ ' '+ names[2]) & (players['name_last']==names[3]),'player_id'].values[0]
 st.title(selector)
 c=st.columns([1.5, 1],gap='small', vertical_alignment='top')
 g=st.columns([1.5, 1],gap='small', vertical_alignment='top')
